@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Chutkuuu | My Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Playfair+Display:italic,wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --accent: #ff4d6d;
+            --gold: #d4af37;
+            --text: #fffafa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; 
+            height: 100vh;
+        }
+
+        /* Floating Faded Background */
+        .decor-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .floating {
+            position: absolute;
+            animation: float-up linear infinite;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Slide Management */
+        .slide {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s ease;
+            transform: scale(0.95);
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        /* BIGGER & POPPING TEXT STYLES */
+        h1 { 
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(3rem, 12vw, 6rem); /* Made significantly bigger */
+            margin-bottom: 2rem; 
+            line-height: 1.1;
+            font-weight: 700;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 20px rgba(255, 255, 255, 0.1); /* Popping effect */
+            letter-spacing: -1px;
+        }
+
+        p { 
+            font-size: clamp(1.2rem, 4vw, 1.6rem); /* Made text bigger */
+            color: #e0e0e0; 
+            max-width: 700px; 
+            line-height: 1.6; 
+            font-weight: 400;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .highlight { 
+            color: var(--accent);
+            filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.3));
+        }
+
+        .bebu-text { 
+            font-family: 'Playfair Display', serif; 
+            font-size: clamp(3.5rem, 14vw, 7rem); /* Extra big for her names */
+            color: var(--gold); 
+            display: block;
+            text-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+            margin: 1rem 0;
+        }
+
+        /* Navigation */
+        .nav-bar {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 12px 25px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 12px; height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .nav-dot.active {
+            background: var(--accent);
+            transform: scale(1.5);
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .btn-celebrate {
+            margin-top: 3rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 20px 45px;
+            border-radius: 100px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(255, 77, 109, 0.4);
+        }
+
+        .btn-celebrate:hover { transform: scale(1.05); }
+
+        .date-chip {
+            background: rgba(212, 175, 55, 0.15);
+            color: var(--gold);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--gold);
+            font-size: 1rem;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="decor-container" id="decor"></div>
+
+    <div class="slide active">
+        <h1>Hey <span class="highlight">Chutkuuu</span>...</h1>
+        <p>I didn't want to just tell you how I feel. <br>I wanted to show you. Let's Go Hehe</p>
+    </div>
+
+    <div class="slide">
+        <h1>Thanks for <br><span class="highlight">choosing me</span>.</h1>
+        <p>In a world of billions, you picked me.I promise to protect your heart forever. That choice is the greatest gift I have ever received. <br> I am so lucky to be yours.</p>
+    </div>
+
+    <div class="slide">
+        <div class="date-chip">OUR FOREVER DATE</div>
+        <h1>14 • 12 • 2025</h1>
+        <p>The day you said <span class="highlight">"I Love You Too."</span> <br>Everything became brighter, and my heart finally found its rhythm. <br>...AND song played in my mind JAISA FILMON MAI HOTA HAI HO RHA HAI HOOBHOOO</p>
+    </div>
+
+    <div class="slide">
+        <i data-lucide="home" style="color: var(--gold); width: 60px; height: 60px; margin-bottom: 2rem;"></i>
+        <h1>You feel like <span class="highlight">home</span>.</h1>
+        <p>I never knew a person could be a destination until I met you. With you, I'm safe. With you, I am home. You are everything to me.</p>
+    </div>
+
+    <div class="slide">
+        <h1>My source of <br><span class="highlight">pure joy</span>.</h1>
+        <p>You make me happy in the simplest ways—a smile, a look, a laugh. You make my soul feel light.</p>
+    </div>
+
+    <div class="slide">
+        <h1>The most <br><span class="highlight">loved</span> person.</h1>
+        <p>Because of you, I walk through the world knowing I am deeply cherished. You make me feel like I truly matter.</p>
+    </div>
+
+    <div class="slide">
+        <h1 class="highlight">I LOVE YOU ALWAYS</h1>
+        <span class="bebu-text">CHUTKUUU BEBUUU</span>
+        <div style="font-size: 4rem; margin: 1rem 0;">❤️ 💖 ❤️</div>
+        <button class="btn-celebrate" onclick="celebrate()">Our Celebration ✨</button>
+    </div>
+
+    <div class="nav-bar" id="navBar"></div>
+
+    <script>
+        lucide.createIcons();
+
+        const decor = document.getElementById('decor');
+        const emojis = ['❤️', '🌸', '🎈', '🌷', '✨', '💕'];
+        for(let i=0; i<25; i++) {
+            const el = document.createElement('div');
+            el.className = 'floating';
+            el.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.animationDuration = (Math.random() * 10 + 8) + 's';
+            el.style.animationDelay = (Math.random() * 5) + 's';
+            el.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            decor.appendChild(el);
+        }
+
+        const slides = document.querySelectorAll('.slide');
+        const navBar = document.getElementById('navBar');
+        let currentIdx = 0;
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = `nav-dot ${i === 0 ? 'active' : ''}`;
+            dot.onclick = () => goToSlide(i);
+            navBar.appendChild(dot);
+        });
+
+        function goToSlide(n) {
+            slides[currentIdx].classList.remove('active');
+            document.querySelectorAll('.nav-dot')[currentIdx].classList.remove('active');
+            currentIdx = n;
+            slides[currentIdx].classList.add('active');
+            document.querySelectorAll('.nav-dot')[currentIdx].classList.add('active');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === "ArrowRight") goToSlide((currentIdx + 1) % slides.length);
+            if(e.key === "ArrowLeft") goToSlide((currentIdx - 1 + slides.length) % slides.length);
+        });
+
+        function celebrate() {
+            const end = Date.now() + 4000;
+            const colors = ['#ff4d6d', '#ffffff', '#d4af37'];
+            (function frame() {
+                confetti({ particleCount: 4, angle: 60, spread: 60, origin: { x: 0 }, colors });
+                confetti({ particleCount: 4, angle: 120, spread: 60, origin: { x: 1 }, colors });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+    </script>
+</body>
+</html>
